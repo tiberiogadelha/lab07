@@ -8,26 +8,12 @@ public class LojaController {
 		bancoDeUsuarios = new HashSet<>();
 	}
 	
-	/**
-	 * O m�todo vende um jogo a um usu�rio, primeiro testando se o usu�rio existe no banco de dados da loja.
-	 * @param nomeLogin Login do usuario que deseja comprar o jogo.
-	 * @param jogo Jogo que vai ser vendido.
-	 * @return
-	 *  Retorna se o jogo foi ou n�o comprado pelo usu�rio.
-	 *  @author Tib�rio
-	 */
 	
-	public boolean vendeJogo(String nomeLogin, String nomeJogo, int valor, String tipo) throws Exception{
-		if(tipo.equalsIgnoreCase("rpg")) {
-			Jogo jogo = new RPG(nomeJogo, valor);
-		} else if(tipo.equalsIgnoreCase("luta")) {
-			Jogo jogo = new Luta(nomeJogo, valor);
-		} else if(tipo.equals("plataforma")) {
-			Jogo jogo = new Plataforma(nomeJogo, valor);
-		} else {
-			throw new Exception("Invalido");
-		}
+	
+	public boolean vendeJogo(String nomeLogin, String nomeJogo, int valor, String tipo, String jogabilidade) throws Exception{
+		
 		Usuario user = procuraUsuario(nomeLogin);
+		Jogo jogo = criaJogo(nomeJogo, valor, tipo, jogabilidade);
 		
 		if(user != null) {
 			return user.compraJogo(jogo);
@@ -36,20 +22,13 @@ public class LojaController {
 		
 	}
 	
-	/**
-	 * O m�todo ir� adicionar um usuario ao banco de dados. Primeiro, vai verificar se os nomes s�o validos; depois verificar
-	 * se o usu�rio j� foi cadastrado anteriormente. Atrav�s do tipo de usu�rio, ser� criado um objeto do veterano ou noob
-	 * para adicion�-lo ao banco de dados de usu�rios.
-	 * 
-	 * @param nomeUsuario O nome do usuario
-	 * @param nomeLogin O nome do login
-	 * @param experiencia Identificar se o usuario � noob ou veterano.
-	 * @return 
-	 * @throws Exception 
-	 * Se o nome for inv�lido, uma exce��o ser� lan�ada.
-	 * Se o usuario for v�lido, retornar� true.
-	 * @author Tib�rio
-	 */
+	public Jogo criaJogo(String nomeJogo, int valor, String tipo, String jogabilidade) throws Exception {
+		FactoryDeJogo factoryJogo = new FactoryDeJogo();
+		Jogo jogo = factoryJogo.criaJogo(nomeJogo, valor, tipo, jogabilidade);
+		return jogo;
+		
+	}
+
 
 	public boolean adicionaUsuario(String nomeUsuario, String nomeLogin, String experiencia) throws Exception {
 		
@@ -82,14 +61,6 @@ public class LojaController {
 		}
 	}
 	
-	/** 
-	 * O m�todo primeiro verifica se o usu�rio existe no banco de dados para poder creditar a conta.
-	 * @param nomeLogin O nome do login
-	 * @param valor O valor a ser creditado
-	 * @throws Exception
-	 * Se o usu�rio nao existir ou o valor for inv�lido, uma exce��o � lan�ada.
-	 * @author Tib�rio
-	 */
 	
 	public void creditaConta(String nomeLogin, int valor) throws Exception {
 		if(valor < 0) {
@@ -104,11 +75,6 @@ public class LojaController {
 		
 	}
 	
-	/**
-	 * Imprime os dados de todos os usu�rios da loja. Informando nome, login, experiencia e os dados dos jogos
-	 * que o mesmo possui na biblioteca.
-	 * @author Tib�rio
-	 */
 	
 	public void imprimeDados() {
 		System.out.println("=== Central P2-CG ===");
@@ -119,12 +85,6 @@ public class LojaController {
 		}
 	}
 	
-	/** O metodo ir� procurar o usuario no banco de dados.
-	 * @param nomeLogin O nome do login
-	 * @return
-	 * Se o usu�rio for achado, o m�todo ir� retorn�-lo. Caso contr�rio, ir� retornar null.
-	 * @author Tib�rio
-	 */
 	
 	public Usuario procuraUsuario(String nomeLogin) {
 		Iterator<Usuario> i = bancoDeUsuarios.iterator();
@@ -137,15 +97,6 @@ public class LojaController {
 		return null;
 	}
 	
-	/**
-	 * O m�todo ir� fazer com que um usu�rio noob passe a ser veterano. Mas antes � verificado se ele realmente � um noob
-	 * e se sua quantidade de x2p � suficiente para torn�-lo um veterano.
-	 * @param nomeLogin Login do usu�rio
-	 * @return
-	 * @throws Exception
-	 * Se o usu�rio j� for um veterano ou n�o tiver a quantidade m�nima de x2p exigida, uma exce��o ser� lan�ada.
-	 * @author Tib�rio
-	 */
 	
 	public boolean upgradeUsuario(String nomeLogin) throws Exception {
 		Usuario OldUser = procuraUsuario(nomeLogin);
