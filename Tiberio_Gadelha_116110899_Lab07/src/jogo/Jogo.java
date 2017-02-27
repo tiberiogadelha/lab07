@@ -1,3 +1,4 @@
+package jogo;
 import java.util.HashSet;
 
 public abstract class Jogo {

@@ -1,3 +1,7 @@
+import jogo.Jogo;
+import jogo.Luta;
+import jogo.Plataforma;
+import jogo.RPG;
 
 public class FactoryDeJogo {
 	

@@ -1,13 +1,18 @@
 import java.util.HashSet;
 import java.util.Iterator;
 
+import jogo.Jogo;
+import validacao.ValidaJogo;
+import validacao.ValidaUsuario;
+
 public class LojaController {
 	private HashSet<Usuario> bancoDeUsuarios;
+	private ValidaJogo validaJogo = new ValidaJogo();
+	private ValidaUsuario validaUsuario = new ValidaUsuario();
 	
 	public LojaController() {
 		bancoDeUsuarios = new HashSet<>();
 	}
-	
 	
 	
 	public boolean vendeJogo(String nomeLogin, String nomeJogo, int valor, String tipo, String jogabilidade) throws Exception{
@@ -23,6 +28,10 @@ public class LojaController {
 	}
 	
 	public Jogo criaJogo(String nomeJogo, int valor, String tipo, String jogabilidade) throws Exception {
+		validaJogo.validaPreco(valor);
+		validaJogo.validaString(nomeJogo);
+		validaJogo.validaTipo(tipo);
+		
 		FactoryDeJogo factoryJogo = new FactoryDeJogo();
 		Jogo jogo = factoryJogo.criaJogo(nomeJogo, valor, tipo, jogabilidade);
 		return jogo;
@@ -32,15 +41,11 @@ public class LojaController {
 
 	public boolean adicionaUsuario(String nomeUsuario, String nomeLogin, String experiencia) throws Exception {
 		
-		if(nomeUsuario == null || nomeUsuario.trim().equals("")) {
-			throw new Exception("O nome do usuario nao pode ser nulo ou vazio.");
-		}
-		if(nomeLogin == null || nomeLogin.trim().equals("")) {
-			throw new Exception("O nome do login nao pode ser nulo ou vazio.");
-		}
-		if(experiencia == null || experiencia.trim().equals("")) {
-			throw new Exception("A experiencia nao pode ser nula ou vazia");
-		}
+		validaUsuario.validaNome(nomeUsuario);
+		validaUsuario.validaNome(nomeLogin);
+		validaUsuario.validaExperiencia(experiencia);
+		
+	
 		
 		Usuario veteranoUser = new Veterano(nomeUsuario, nomeLogin);
 		Usuario noobUser = new Noob(nomeUsuario, nomeLogin);

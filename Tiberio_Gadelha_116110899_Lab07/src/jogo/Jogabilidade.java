@@ -1,3 +1,4 @@
+package jogo;
 public enum Jogabilidade {
 	
 	ONLINE("online"),

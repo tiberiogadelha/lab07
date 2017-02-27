@@ -1,3 +1,5 @@
+package jogo;
+
 public class RPG extends Jogo {
 
 	public RPG(String nomeJogo, int preco) {

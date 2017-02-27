@@ -1,3 +1,5 @@
+package jogo;
+
 public class Plataforma extends Jogo {
 
 	public Plataforma(String nomeJogo, int preco) {

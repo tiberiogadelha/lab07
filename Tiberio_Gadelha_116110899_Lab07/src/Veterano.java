@@ -1,4 +1,6 @@
-public class Veterano extends Usuario{
+import jogo.Jogo;
+
+public class Veterano extends Usuario implements TipoDeUsuario {
 
 	public Veterano(String nomeUsuario, String nomeLogin) throws Exception {
 		super(nomeUsuario, nomeLogin);

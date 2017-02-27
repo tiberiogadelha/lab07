@@ -1,5 +1,7 @@
 import java.util.HashSet;
 
+import jogo.Jogo;
+
 public abstract class Usuario {
 	public static final String FIM_DE_LINHA = System.lineSeparator();
 	private String nomeUsuario;

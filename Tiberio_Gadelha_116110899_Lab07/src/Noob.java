@@ -1,4 +1,6 @@
-public class Noob extends Usuario{
+import jogo.Jogo;
+
+public class Noob extends Usuario implements TipoDeUsuario {
 
 	public Noob(String nomeUsuario, String nomeLogin) throws Exception {
 		super(nomeUsuario, nomeLogin);
