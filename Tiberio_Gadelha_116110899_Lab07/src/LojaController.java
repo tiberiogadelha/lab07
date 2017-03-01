@@ -1,7 +1,10 @@
 import java.util.HashSet;
 import java.util.Iterator;
 
+import factory.FactoryDeJogo;
+import factory.FactoryDeUsuario;
 import jogo.Jogo;
+import usuario.Usuario;
 import validacao.ValidaJogo;
 import validacao.ValidaUsuario;
 
@@ -39,27 +42,25 @@ public class LojaController {
 	}
 
 
-	public boolean adicionaUsuario(String nomeUsuario, String nomeLogin, String experiencia) throws Exception {
+	public Usuario criaUsuario(String nomeUsuario, String nomeLogin, String experiencia) throws Exception {
+		FactoryDeUsuario factoryUsuario = new FactoryDeUsuario();
+		Usuario novoUsuario = factoryUsuario.criaUsuario(nomeUsuario, nomeLogin);
 		
+		return novoUsuario;
+		
+	
+	}
+	
+	public boolean adicionaUsuario(String nomeUsuario, String nomeLogin, String experiencia) throws Exception {
 		validaUsuario.validaNome(nomeUsuario);
 		validaUsuario.validaNome(nomeLogin);
 		validaUsuario.validaExperiencia(experiencia);
 		
-	
-		
-		Usuario veteranoUser = new Veterano(nomeUsuario, nomeLogin);
-		Usuario noobUser = new Noob(nomeUsuario, nomeLogin);
+		Usuario novoUsuario = criaUsuario(nomeUsuario, nomeLogin, experiencia);
 		
 		if(procuraUsuario(nomeLogin) == null) {
-			if(experiencia.equalsIgnoreCase("noob")) {
-				bancoDeUsuarios.add(noobUser);
-				return true;
-			} else if(experiencia.equalsIgnoreCase("veterano")) {
-				bancoDeUsuarios.add(veteranoUser);
-				return true;
-			} else {
-				throw new Exception("Tipo de experiencia invalida.");
-			}
+			bancoDeUsuarios.add(novoUsuario);
+			return true;
 			
 		} else {
 			throw new Exception("O nome de login ja esta sendo utilizado. Escolha outro, por favor.");
@@ -67,13 +68,14 @@ public class LojaController {
 	}
 	
 	
-	public void creditaConta(String nomeLogin, int valor) throws Exception {
+	public void adicionaCredito(String nomeLogin, int valor) throws Exception {
+		
 		if(valor < 0) {
 			throw new Exception("O valor nao pode ser negativo.");
 		}
 		
 		if(procuraUsuario(nomeLogin) != null) {
-			procuraUsuario(nomeLogin).creditaConta(valor);
+			procuraUsuario(nomeLogin).adicionaCredito(valor);
 		} else {
 			throw new Exception("O usuario ainda nao foi cadastrado.");
 		}
@@ -104,18 +106,11 @@ public class LojaController {
 	
 	
 	public boolean upgradeUsuario(String nomeLogin) throws Exception {
-		Usuario OldUser = procuraUsuario(nomeLogin);
-		if(OldUser != null) {
-			Usuario user1 = new Noob("blabla", "blabalba");
-			if(OldUser.getClass().equals(user1.getClass())){
-				if(OldUser.getX2p() >= 1000) {
-					Usuario newUser = new Veterano(OldUser.getNomeLogin(), OldUser.getNomeLogin());
-					
-					newUser.setBibliotecaDeJogos(OldUser.getBibliotecaDeJogos());
-					newUser.setX2p(OldUser.getX2p());
-					newUser.setSaldo(OldUser.getSaldo());
-					bancoDeUsuarios.remove(OldUser);
-					bancoDeUsuarios.add(newUser);
+		Usuario user = procuraUsuario(nomeLogin);
+		if(user != null) {
+			if(user.getTipoDeUsuario().equalsIgnoreCase("noob")){
+				if(user.getX2p() >= 1000) {
+					user.setStatusDoUsuarioVeterano();
 					return true;
 				}	
 			} 
@@ -125,6 +120,25 @@ public class LojaController {
 		}
 			
 		}
+	
+	public boolean downgradeUsuario(String nomeLogin) throws Exception {
+		Usuario user = procuraUsuario(nomeLogin);
+		
+		if(user != null) {
+			if(user.getTipoDeUsuario().equalsIgnoreCase("veterano")) {
+				if(user.getX2p() <= 1000) {
+					user.setStatusDoUsuarioNoob();
+					return true;
+				}
+				
+			} else {
+				throw new Exception("O usuario ja e um noob ou tem mais de 1000 de x2p.");
+			}
+		} else {
+			throw new Exception("O usuario ainda nao foi cadastrado.");
+		}
+		return false;
+	}
 	
 	public HashSet<Usuario> getUsuarios() {
 		return bancoDeUsuarios;

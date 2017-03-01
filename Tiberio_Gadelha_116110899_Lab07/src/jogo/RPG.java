@@ -6,10 +6,6 @@ public class RPG extends Jogo {
 		super(nomeJogo, preco);
 	}
 	
-	/**
-	 * O m�todo registra a jogada de um jogo tipo RPG. Sempre que o usu�rio jogar uma partida, ele ganha 10 de x2p.
-	 */
-	
 	@Override
 	public int registraJogada(int score, boolean zerou) {
 		if (zerou == true) {
@@ -21,6 +17,7 @@ public class RPG extends Jogo {
 		qtdJogado++;
 		return 10;
 	}
+	
 	
 	@Override
 	public String toString() {

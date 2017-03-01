@@ -1,3 +1,4 @@
+package factory;
 import jogo.Jogo;
 import jogo.Luta;
 import jogo.Plataforma;

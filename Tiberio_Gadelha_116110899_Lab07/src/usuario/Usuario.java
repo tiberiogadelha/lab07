@@ -1,15 +1,20 @@
+package usuario;
 import java.util.HashSet;
 
 import jogo.Jogo;
 
-public abstract class Usuario {
+public class Usuario {
+	
 	public static final String FIM_DE_LINHA = System.lineSeparator();
+	
 	private String nomeUsuario;
 	private String nomeLogin;
-	protected int saldo;
+	private int saldo;
 	protected HashSet<Jogo> bibliotecaDeJogos;
 	private int x2p;
 	private double totalGasto;
+	private TipoDeUsuario statusDoUsuario;
+	
 	
 	/**
 	 * O construtor cria um novo Usu�rio.
@@ -25,6 +30,9 @@ public abstract class Usuario {
 		setX2p(0);
 		setTotalGasto(0);
 		bibliotecaDeJogos = new HashSet<>();
+		statusDoUsuario = new Noob();
+		
+		
 		
 	}
 	
@@ -33,7 +41,7 @@ public abstract class Usuario {
 	 * @author Tib�rio
 	 */
 	
-	public void creditaConta(int valor) {
+	public void adicionaCredito(int valor) {
 		saldo += valor;
 	}
 	
@@ -44,7 +52,18 @@ public abstract class Usuario {
 	 * Retorna se o jogo foi ao n�o comprado com sucesso.
 	 */
 	
-	public abstract boolean compraJogo(Jogo jogo);
+	public boolean compraJogo(Jogo jogo) {
+		if(!(bibliotecaDeJogos.contains(jogo))) {
+			if(saldo >= jogo.getPreco() * statusDoUsuario.desconto()) {
+				bibliotecaDeJogos.add(jogo);
+				saldo -= jogo.getPreco() * statusDoUsuario.desconto();
+				x2p += jogo.getPreco() * statusDoUsuario.x2pExtra();
+				return true;
+				
+			} 
+		}
+			return false;
+	}
 	
 	/**
 	 * O m�todo vai regristrar a jogada de um usu�rio, mas antes vai ser verificado se ele possui o jogo. Se ele possuir,
@@ -55,14 +74,28 @@ public abstract class Usuario {
 	 * @throws Exception
 	 * @author Tib�rio
 	 */
-	
-	public void registraJogada(String nomeDoJogo, int score, boolean zerou) throws Exception {
+
+	public void recompensar(String nomeDoJogo, int score, boolean zerou) throws Exception {
 		Jogo jogo = procuraJogo(nomeDoJogo);
-		if (!(jogo == null)) {
-			x2p += procuraJogo(nomeDoJogo).registraJogada(score, zerou);
+		if(jogo != null) {
+			x2p += statusDoUsuario.recompensar(jogo);
+			x2p += jogo.registraJogada(score, zerou);
+		} else {
+			throw new Exception("O usuario nao possui o jogo");
+		}
+	}
+	
+	public void punir(String nomeDoJogo, int score, boolean zerou) throws Exception {
+		Jogo jogo = procuraJogo(nomeDoJogo);
+		if(jogo != null) {
+			x2p -= statusDoUsuario.punir(jogo);
+			x2p += jogo.registraJogada(score, zerou);
+		} else {
+			throw new Exception("O usuario nao possui o jogo");
 		}
 		
 	}
+	
 	
 	/**
 	 * O m�todo procura um jogo na biblioteca do usu�rio.
@@ -126,6 +159,18 @@ public abstract class Usuario {
 		this.saldo = saldo;
 		
 	}
+	
+	public void setStatusDoUsuarioVeterano() {
+		this.statusDoUsuario = new Veterano();
+	}
+	
+	public void setStatusDoUsuarioNoob() {
+		this.statusDoUsuario = new Noob();
+	}
+	
+	public String getTipoDeUsuario() {
+		return statusDoUsuario.tipoDeUsuario();
+	}
 
 	@Override
 	public int hashCode() {
@@ -158,6 +203,13 @@ public abstract class Usuario {
 
 	public void setTotalGasto(double valor) {
 		this.totalGasto = valor;
+	}
+	
+	@Override
+	public String toString() {
+		return getNomeLogin() + FIM_DE_LINHA + getNomeUsuario() +" - Jogador " + statusDoUsuario.tipoDeUsuario() + FIM_DE_LINHA + "Lista de Jogos: "+ FIM_DE_LINHA +
+				bibliotecaDeJogos.toString() + FIM_DE_LINHA + "Total de preco dos jogos: R$ " + getTotalGasto() + 
+					FIM_DE_LINHA + "--------------------------------------------";
 	}
 
 }

@@ -6,11 +6,6 @@ public class Plataforma extends Jogo {
 		super(nomeJogo, preco);
 	}
 	
-	/**
-	 * O m�todo registra a jogada de um jogo tipo Plataforma. Se o usu�rio zerar o jogo, ele ganha 20 de x2p, se n�o, ganha 0.
-	 * @author Tib�rio
-	 */
-	
 	@Override
 	public int registraJogada(int score, boolean zerou) {
 		if (score > bestScore) {

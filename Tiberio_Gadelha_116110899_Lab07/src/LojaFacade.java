@@ -17,7 +17,7 @@ public class LojaFacade implements LojaInterface {
 	}
 	
 	public void creditaConta(String nomeLogin, int valor) throws Exception {
-		loja.creditaConta(nomeLogin, valor);
+		loja.adicionaCredito(nomeLogin, valor);
 	}
 	
 	public void imprimeDados() {
