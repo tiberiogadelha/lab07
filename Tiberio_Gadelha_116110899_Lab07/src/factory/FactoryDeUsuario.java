@@ -8,6 +8,7 @@ import usuario.Usuario;
  */
 
 public class FactoryDeUsuario {
+	private Usuario usuario;
 	
 	/**
 	 * Trata-se de um criador de objeto do tipo Usuario. Vai sempre criar um usuario do tipo Noob.
@@ -17,7 +18,7 @@ public class FactoryDeUsuario {
 	 * @throws Exception
 	 */
 	public Usuario criaUsuario(String nomeUsuario, String login) throws Exception {
-		Usuario usuario = new Usuario(nomeUsuario, login);
+		usuario = new Usuario(nomeUsuario, login);
 		return usuario;
 		
 	}
