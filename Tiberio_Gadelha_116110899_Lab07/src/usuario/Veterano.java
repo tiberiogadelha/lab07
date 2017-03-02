@@ -4,20 +4,19 @@ import jogo.Jogabilidade;
 
 import jogo.Jogo;
 
+/**
+ * 
+ * @author Tiberio Gadelha
+ *
+ */
 public class Veterano implements TipoDeUsuario {
 
 	public Veterano()  {
 	}
 	
 	/**
-	 * O m�todo compra um jogo com 20% de desconto. Se o usu�rio tiver saldo suficiente, o jogo � adicionado
-	 * � sua biblioteca, ele ganha x2p e true � retornado. Se n�o, retorna false.
-	 * @author Tib�rio
-	 * @throws Exception 
+	 * O metodo vai punir um usuario em x2p, de acordo com a jogabilidade do jogo.
 	 */
-	
-
-
 	public int punir(Jogo jogo) {	
 		int punicao = 0;
 		HashSet<Jogabilidade> jogabilidades = jogo.getJogabilidade();

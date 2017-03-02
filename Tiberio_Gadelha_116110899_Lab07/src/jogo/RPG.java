@@ -1,5 +1,10 @@
 package jogo;
 
+/**
+ * 
+ * @author Tiberio Gadelha
+ *
+ */
 public class RPG extends Jogo {
 
 	public RPG(String nomeJogo, int preco) {

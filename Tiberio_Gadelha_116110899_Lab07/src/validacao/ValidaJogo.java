@@ -1,5 +1,11 @@
 package validacao;
 
+/**
+ * 
+ * @author Tiberio Gadelha
+ *
+ */
+
 public class ValidaJogo {
 	
 	public void validaString(String nome) throws Exception{

@@ -2,7 +2,12 @@ package loja;
 import easyaccept.EasyAccept;
 import jogo.Jogo;
 
-public class LojaFacade {
+/**
+ * 
+ * @author Tiberio Gadelha
+ *
+ */
+public class Facade {
 	
 	private LojaController loja = new LojaController();
 	

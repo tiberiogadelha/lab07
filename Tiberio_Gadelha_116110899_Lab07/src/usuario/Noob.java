@@ -4,17 +4,15 @@ import java.util.HashSet;
 import jogo.Jogabilidade;
 import jogo.Jogo;
 
+/**
+ * 
+ * @author TiberioGadelha
+ *
+ */
 public class Noob implements TipoDeUsuario {
 
 	public Noob() {
 	}
-	
-	/**
-	 * O usu�rio compra um jogo com 10% de desconto, mas antes � verificado se o mesmo possui saldo para a compra. Se tiver, o jogo � adicionado
-	 * � biblioteca, ganha x2p e retorna true, se n�o, retorna false.
-	 * @author Tib�rio
-	 */
-	
 	
 	public int punir(Jogo jogo) {
 		int punicao = 0;
@@ -56,5 +54,4 @@ public class Noob implements TipoDeUsuario {
 	public int x2pExtra() {
 		return 10;
 	}
-
 }

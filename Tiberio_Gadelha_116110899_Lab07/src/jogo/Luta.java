@@ -1,5 +1,11 @@
 package jogo;
 
+/**
+ * 
+ * @author Tiberio Gadelha
+ *
+ */
+
 public class Luta extends Jogo{
 
 	public Luta(String nomeJogo, int preco ) {

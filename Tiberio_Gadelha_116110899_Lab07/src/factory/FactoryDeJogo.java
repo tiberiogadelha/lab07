@@ -4,10 +4,25 @@ import jogo.Luta;
 import jogo.Plataforma;
 import jogo.RPG;
 
+/**
+ * 
+ * @author Tiberio Gadelha
+ *
+ */
 public class FactoryDeJogo {
+	
 	
 	private Jogo jogo;
 	
+	/**
+	 * Trata-se de um criador de objeto do tipo Jogo. De acordo com o parametro 'String tipo', vai ser criado um diferente tipo de jogo.
+	 * @param nomeJogo Nome do jogo que vai ser criado.
+	 * @param preco O preco do jogo.
+	 * @param tipo O tipo do jogo (rpg/luta/plataforma).
+	 * @param jogabilidade A jogabilidade do jogo.
+	 * @return Retorna o objeto Jogo criado.
+	 * @throws Exception
+	 */
 	public Jogo criaJogo(String nomeJogo, int preco, String tipo, String jogabilidade) throws Exception {
 		
 		if(tipo.equalsIgnoreCase("luta")) {

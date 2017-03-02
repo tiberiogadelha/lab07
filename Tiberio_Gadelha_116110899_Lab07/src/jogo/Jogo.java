@@ -1,6 +1,11 @@
 package jogo;
 import java.util.HashSet;
 
+/**
+ * 
+ * @author Tiberio Gadelha
+ *
+ */
 public abstract class Jogo {
 	public static final String FIM_DE_LINHA = System.lineSeparator();
 	private String nomeJogo;
@@ -12,10 +17,10 @@ public abstract class Jogo {
 	private int x2p;
 	
 	/**
-	 * O construtor de Jogo com todas as informaï¿½ï¿½es de um jogo.
+	 * O construtor de Jogo com todas as informacoes de um jogo.
 	 * @param nomeJogo Nome do jogo
-	 * @param preco Preï¿½o do jogo
-	 * @author Tibï¿½rio
+	 * @param preco Preco do jogo.
+	 * 
 	 */
 	
 	public Jogo(String nomeJogo, int preco) {
@@ -29,12 +34,12 @@ public abstract class Jogo {
 	}
 	
 	/**
-	 * Registra a jogada do usuï¿½rio em um jogo e retorna a quantidade de x2p obtida, de acordo com o tipo de jogo.
+	 * Registra a jogada do usuarioo em um jogo e retorna a quantidade de x2p obtida, de acordo com o tipo de jogo.
 	 * @param score Score obtido
-	 * @param zerou Pergunta se o usuï¿½rio zerou.
-	 * @return
+	 * @param zerou Pergunta se o usuario zerou.
+	 * @return Retorna a quantidade de x2p
 	 * @throws Exception
-	 * @author Tibï¿½rio
+	 * 
 	 */
 	
 	public abstract int registraJogada(int score, boolean zerou) throws Exception;
@@ -103,6 +108,12 @@ public abstract class Jogo {
 			return false;
 		return true;
 	}
+	
+	/**
+	 * Adiciona um tipo de Jogabilidade ao Jogo
+	 * @param jogabilidade A string que será convertida em uma Jogabilidade.
+	 * @throws Exception
+	 */
 
 	public void addJogabilidades(String jogabilidade) throws Exception {
 		if(jogabilidade == null) {

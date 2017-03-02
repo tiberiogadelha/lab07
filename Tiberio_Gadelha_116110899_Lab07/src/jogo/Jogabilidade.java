@@ -1,5 +1,12 @@
 package jogo;
+
+/**
+ * 
+ * @author Tiberio Gadelha
+ *
+ */
 public enum Jogabilidade {
+	
 	
 	ONLINE("online"),
 	OFFLINE("offline"),
@@ -9,10 +16,19 @@ public enum Jogabilidade {
 	
 	private final String jogabilidade;
 	
+	/**
+	 * Cria um objeto do tipo Jogabilidade.
+	 * @param jogabilidade
+	 */
+	
 	Jogabilidade(String jogabilidade) {
 		this.jogabilidade = jogabilidade;
 	}
 
+	/**
+	 * 
+	 * @return Retorna a string da Jogabilidade.
+	 */
 	public String getJogabilidade() {
 		return jogabilidade;
 	}

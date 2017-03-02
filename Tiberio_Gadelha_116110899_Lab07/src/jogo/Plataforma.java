@@ -1,5 +1,11 @@
 package jogo;
 
+/**
+ * 
+ * @author Tiberio Gadelha
+ *
+ */
+
 public class Plataforma extends Jogo {
 
 	public Plataforma(String nomeJogo, int preco) {

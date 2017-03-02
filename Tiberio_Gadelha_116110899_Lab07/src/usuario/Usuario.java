@@ -17,10 +17,10 @@ public class Usuario {
 	
 	
 	/**
-	 * O construtor cria um novo Usu�rio.
-	 * @param nomeUsuario O nome do usu�rio
-	 * @param nomeLogin O login do usu�rio
-	 * @author Tib�rio
+	 * O construtor cria um novo Usuario
+	 * @param nomeUsuario O nome do Usuario.
+	 * @param nomeLogin O login do usuario.
+	 *
 	 */
 	
 	public Usuario(String nomeUsuario, String nomeLogin) {
@@ -37,8 +37,8 @@ public class Usuario {
 	}
 	
 	/**
-	 * Credita a conta do usu�rio.
-	 * @author Tib�rio
+	 * Credita a conta do usuario.
+	 *
 	 */
 	
 	public void adicionaCredito(int valor) {
@@ -46,10 +46,10 @@ public class Usuario {
 	}
 	
 	/**
-	 * O m�todo serve para o usu�rio comprar um jogo.
+	 * O metodo serve para o usuario comprar um jogo, recebendo um desconto e x2p extra, de acordo com seu tipo (noob/veterano)
 	 * @param jogo Jogo que vai ser comprado.
 	 * @return
-	 * Retorna se o jogo foi ao n�o comprado com sucesso.
+	 * Retorna se o jogo foi ao nao comprado com sucesso.
 	 */
 	
 	public boolean compraJogo(Jogo jogo) {
@@ -58,6 +58,7 @@ public class Usuario {
 				bibliotecaDeJogos.add(jogo);
 				saldo -= jogo.getPreco() * statusDoUsuario.desconto();
 				x2p += jogo.getPreco() * statusDoUsuario.x2pExtra();
+				totalGasto += jogo.getPreco();
 				return true;
 				
 			} 
@@ -66,42 +67,48 @@ public class Usuario {
 	}
 	
 	/**
-	 * O m�todo vai regristrar a jogada de um usu�rio, mas antes vai ser verificado se ele possui o jogo. Se ele possuir,
-	 * a quantidade de x2p ser� acrescentada na conta.
-	 * @param nomeDoJogo O nome do jogo
-	 * @param score A pontua��o atingida
-	 * @param zerou Verifica se zerou ou n�o
+	 * O metodo vai recompensar em x2p um usuario, de acordo com o tipo de usuario e a jogabilidade do jogo.
+	 * @param nomeDoJogo
+	 * @param score
+	 * @param zerou
 	 * @throws Exception
-	 * @author Tib�rio
 	 */
 
 	public void recompensar(String nomeDoJogo, int score, boolean zerou) throws Exception {
 		Jogo jogo = procuraJogo(nomeDoJogo);
 		if(jogo != null) {
 			x2p += statusDoUsuario.recompensar(jogo);
+			// chamada polimorfica
 			x2p += jogo.registraJogada(score, zerou);
 		} else {
 			throw new Exception("O usuario nao possui o jogo");
 		}
 	}
+	
+	/**
+	 * O metodo vai punir um usuario, diminuindo sua x2p, de acordo com seu tipo(noob/veterano) e a jogabilidade do jogo.
+	 * @param nomeDoJogo
+	 * @param score
+	 * @param zerou
+	 * @throws Exception
+	 */
 	
 	public void punir(String nomeDoJogo, int score, boolean zerou) throws Exception {
 		Jogo jogo = procuraJogo(nomeDoJogo);
 		if(jogo != null) {
 			x2p -= statusDoUsuario.punir(jogo);
+			// chamada polimorfica
 			x2p += jogo.registraJogada(score, zerou);
 		} else {
 			throw new Exception("O usuario nao possui o jogo");
 		}
-		
 	}
 	
-	
 	/**
-	 * O m�todo procura um jogo na biblioteca do usu�rio.
+	 * O metodo procura um jogo na biblioteca do usuario.
 	 * @param nomeDoJogo Nome do jogo a ser procurado
 	 * @return
-	 * Se o usu�rio tiver esse jogo, o mesmo ser� retornado. Se n�o, null ser� retornado.
+	 * Se o usuario possui o jogo, o objeto 'e retornado. Caso contrario, retorna null.
 	 * 
 	 */
 	
@@ -168,6 +175,7 @@ public class Usuario {
 		this.statusDoUsuario = new Noob();
 	}
 	
+	
 	public String getTipoDeUsuario() {
 		return statusDoUsuario.tipoDeUsuario();
 	}
@@ -207,9 +215,10 @@ public class Usuario {
 	
 	@Override
 	public String toString() {
-		return getNomeLogin() + FIM_DE_LINHA + getNomeUsuario() +" - Jogador " + statusDoUsuario.tipoDeUsuario() + FIM_DE_LINHA + "Lista de Jogos: "+ FIM_DE_LINHA +
-				bibliotecaDeJogos.toString() + FIM_DE_LINHA + "Total de preco dos jogos: R$ " + getTotalGasto() + 
-					FIM_DE_LINHA + "--------------------------------------------";
+		return "Jogador " + statusDoUsuario.tipoDeUsuario() + ": " + getNomeLogin() + FIM_DE_LINHA + getNomeUsuario() + " - " + 
+				getX2p() + " x2p" + FIM_DE_LINHA + "Lista de jogos: " + FIM_DE_LINHA + bibliotecaDeJogos.toString() +
+				FIM_DE_LINHA + "Total de preco dos jogos: R$ " + getTotalGasto() + FIM_DE_LINHA + "--------------------------------------------";
+		
 	}
 
 }
