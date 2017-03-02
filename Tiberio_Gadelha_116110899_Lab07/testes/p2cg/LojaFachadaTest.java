@@ -17,7 +17,7 @@ public class LojaFachadaTest {
 	@Test
 	public void testAdicionaUsuario() throws Exception {
 		Usuario user = new Veterano("Tiberio", "tiberio.gadelha");
-		assertTrue(loja.adicionaUsuario("Tiberio", "tiberio.gadelha", "Veterano"));
+		assertTrue(loja.criaUsuario("Tiberio", "tiberio.gadelha", "Veterano"));
 		assertTrue(loja.getUsuarios().contains(user));
 		
 	}
@@ -25,19 +25,19 @@ public class LojaFachadaTest {
 	@Test
 	public void testAdicionaUsuarioInvalido() {
 		try {
-			loja.adicionaUsuario(null, "tiberio.gadelha", "Veterano");
+			loja.criaUsuario(null, "tiberio.gadelha", "Veterano");
 		} catch (Exception e) {
 			assertEquals("O nome do usuario nao pode ser nulo ou vazio.", e.getMessage());
 		}
 		
 		try {
-			loja.adicionaUsuario("Tibério", "", "Noob");
+			loja.criaUsuario("Tibï¿½rio", "", "Noob");
 		} catch (Exception e) {
 			assertEquals("O nome do login nao pode ser nulo ou vazio.", e.getMessage());
 		}
 		
 		try {
-			loja.adicionaUsuario("Tibério", "ti.gadelha", "");
+			loja.criaUsuario("Tibï¿½rio", "ti.gadelha", "");
 		} catch (Exception e) {
 			assertEquals("A experiencia nao pode ser nula ou vazia", e.getMessage());
 		}
@@ -46,9 +46,9 @@ public class LojaFachadaTest {
 	
 	@Test
 	public void testAdicionaUsuarioRepetido() throws Exception {
-		assertTrue(loja.adicionaUsuario("Tiberio", "tiberio.gadelha", "Veterano"));
+		assertTrue(loja.criaUsuario("Tiberio", "tiberio.gadelha", "Veterano"));
 		try {
-			loja.adicionaUsuario("Tib", "TIBERIO.gadelha", "Noob");
+			loja.criaUsuario("Tib", "TIBERIO.gadelha", "Noob");
 		} catch (Exception e) {
 			assertEquals("O nome de login ja esta sendo utilizado. Escolha outro, por favor.", e.getMessage());
 		}
@@ -58,24 +58,24 @@ public class LojaFachadaTest {
 	@Test
 	public void testProcuraUsuario() throws Exception {
 		assertEquals(null, loja.procuraUsuario("tiberio.gadelha"));
-		Usuario user = new Veterano("Tibério", "tiberio.gadelha");
-		loja.adicionaUsuario("Tibério", "tiberio.gadelha", "Veterano");
+		Usuario user = new Veterano("Tibï¿½rio", "tiberio.gadelha");
+		loja.criaUsuario("Tibï¿½rio", "tiberio.gadelha", "Veterano");
 		assertEquals(user, loja.procuraUsuario("tiberio.gadelha"));
 	}
 
 	@Test
 	public void testCreditaConta() throws Exception {
-		loja.adicionaUsuario("Tiberio", "tiberio.gadelha", "Veterano");
-		loja.creditaConta("tiberio.gadelha", 100);
+		loja.criaUsuario("Tiberio", "tiberio.gadelha", "Veterano");
+		loja.adicionaCredito("tiberio.gadelha", 100);
 		assertEquals(100, loja.procuraUsuario("tiberio.gadelha").getSaldo(), 0.00001);
-		loja.creditaConta("tiberio.gadelha", 350);
+		loja.adicionaCredito("tiberio.gadelha", 350);
 		assertEquals(450, loja.procuraUsuario("tiberio.gadelha").getSaldo(), 0.00001);
 	}
 	
 	@Test
 	public void testCreditaContaInvalida() {
 		try {
-			loja.creditaConta("Joaozin", 20);
+			loja.adicionaCredito("Joaozin", 20);
 		} catch (Exception e) {
 			assertEquals("O usuario ainda nao foi cadastrado.", e.getMessage());
 		}
@@ -84,7 +84,7 @@ public class LojaFachadaTest {
 	@Test
 	public void testCreditaValorInvalido() {
 		try {
-			loja.creditaConta("joaozin", -2);
+			loja.adicionaCredito("joaozin", -2);
 		} catch (Exception e) {
 			assertEquals("O valor nao pode ser negativo.", e.getMessage());
 		}
@@ -93,11 +93,11 @@ public class LojaFachadaTest {
 	
 	@Test
 	public void testVendeJogo() throws Exception {
-		loja.adicionaUsuario("Tiberio", "tiberio.gadelha", "Veterano");
+		loja.criaUsuario("Tiberio", "tiberio.gadelha", "Veterano");
 		Jogo jogo = new RPG("BOB", 250);
-		loja.creditaConta("tiberio.gadelha", 100);
+		loja.adicionaCredito("tiberio.gadelha", 100);
 		assertFalse(loja.vendeJogo("tiberio.gadelha", jogo));
-		loja.creditaConta("tiberio.gadelha", 200);
+		loja.adicionaCredito("tiberio.gadelha", 200);
 		assertTrue(loja.vendeJogo("tiberio.gadelha", jogo));
 		assertEquals(200, loja.procuraUsuario("tiberio.gadelha").getTotalGasto(), 0.00001);
 		assertEquals(100, loja.procuraUsuario("tiberio.gadelha").getSaldo());
@@ -116,10 +116,10 @@ public class LojaFachadaTest {
 	
 	@Test
 	public void testImprimeDados() throws Exception {
-		loja.adicionaUsuario("Tiberio", "tiberio.gadelha", "Veterano");
+		loja.criaUsuario("Tiberio", "tiberio.gadelha", "Veterano");
 		Jogo jogo = new RPG("BOB", 100);
 		Jogo jogo2 = new Luta("Mortal Kombat", 200);
-		loja.creditaConta("tiberio.gadelha", 500);
+		loja.adicionaCredito("tiberio.gadelha", 500);
 		loja.vendeJogo("tiberio.gadelha", jogo);
 		loja.vendeJogo("tiberio.gadelha", jogo2);
 		loja.imprimeDados();
@@ -127,7 +127,7 @@ public class LojaFachadaTest {
 	
 	@Test
 	public void testUpgradeUsuario() throws Exception {
-		loja.adicionaUsuario("Tibério", "tiberio.gadelha", "noob");
+		loja.criaUsuario("Tibï¿½rio", "tiberio.gadelha", "noob");
 		loja.procuraUsuario("tiberio.gadelha").adicionaX2p(2000);
 		assertTrue(loja.upgradeUsuario("tiberio.gadelha"));
 		Usuario veteranoTest = new Veterano("blabla","blablabal");
@@ -145,7 +145,7 @@ public class LojaFachadaTest {
 	
 	@Test
 	public void testUpgradeUsuarioSemX2p() throws Exception {
-		loja.adicionaUsuario("Tibério", "tiberio.gadelha", "noob");
+		loja.criaUsuario("Tibï¿½rio", "tiberio.gadelha", "noob");
 		try {
 			loja.upgradeUsuario("tiberio.gadelha");
 		} catch(Exception e) {
@@ -155,7 +155,7 @@ public class LojaFachadaTest {
 	
 	@Test
 	public void testUpgradeUsuarioVeterano() throws Exception {
-		loja.adicionaUsuario("Tibério", "tiberio.gadelha", "veterano");
+		loja.criaUsuario("Tibï¿½rio", "tiberio.gadelha", "veterano");
 		try {
 			loja.upgradeUsuario("tiberio.gadelha");
 		} catch (Exception e) {

@@ -1,3 +1,4 @@
+package loja;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -18,7 +19,7 @@ public class LojaController {
 	}
 	
 	
-	public boolean vendeJogo(String nomeLogin, String nomeJogo, int valor, String tipo, String jogabilidade) throws Exception{
+	public boolean vendeJogo(String nomeJogo, int valor, String jogabilidade, String tipo, String nomeLogin) throws Exception{
 		
 		Usuario user = procuraUsuario(nomeLogin);
 		Jogo jogo = criaJogo(nomeJogo, valor, tipo, jogabilidade);
@@ -77,10 +78,29 @@ public class LojaController {
 		if(procuraUsuario(nomeLogin) != null) {
 			procuraUsuario(nomeLogin).adicionaCredito(valor);
 		} else {
-			throw new Exception("O usuario ainda nao foi cadastrado.");
+			
 		}
 		
 	}
+	
+	public double confereCredito(String nomeLogin) throws Exception {
+		Usuario user = procuraUsuario(nomeLogin);
+		
+		if(user != null) {
+			return user.getSaldo();
+		}
+		return 0;
+	}
+	
+	public int getX2p(String nomeLogin) throws Exception {
+		Usuario user = procuraUsuario(nomeLogin);
+		
+		if(user != null) {
+			return user.getX2p();
+		}
+		return 0;
+	}
+		
 	
 	
 	public void imprimeDados() {
@@ -105,42 +125,50 @@ public class LojaController {
 	}
 	
 	
-	public boolean upgradeUsuario(String nomeLogin) throws Exception {
+	public void upgrade(String nomeLogin) throws Exception {
 		Usuario user = procuraUsuario(nomeLogin);
 		if(user != null) {
 			if(user.getTipoDeUsuario().equalsIgnoreCase("noob")){
 				if(user.getX2p() >= 1000) {
 					user.setStatusDoUsuarioVeterano();
-					return true;
 				}	
 			} 
-			throw new Exception("O jogador ja e um veterano ou nao possui a quantidade de x2p necessaria.");		
-		} else {
-			throw new Exception("O usuario ainda nao foi cadastrado.");
 		}
 			
 		}
 	
-	public boolean downgradeUsuario(String nomeLogin) throws Exception {
+	public void downgrade(String nomeLogin) throws Exception {
 		Usuario user = procuraUsuario(nomeLogin);
 		
 		if(user != null) {
 			if(user.getTipoDeUsuario().equalsIgnoreCase("veterano")) {
 				if(user.getX2p() <= 1000) {
 					user.setStatusDoUsuarioNoob();
-					return true;
 				}
-				
-			} else {
-				throw new Exception("O usuario ja e um noob ou tem mais de 1000 de x2p.");
 			}
-		} else {
-			throw new Exception("O usuario ainda nao foi cadastrado.");
 		}
-		return false;
+			
 	}
 	
 	public HashSet<Usuario> getUsuarios() {
 		return bancoDeUsuarios;
+	}
+	
+	public void recompensar(String nomeLogin, String nomeDoJogo, int score, boolean zerou) throws Exception {
+		Usuario user = procuraUsuario(nomeLogin);
+		
+		if(user != null) {
+			user.recompensar(nomeDoJogo, score, zerou);
+		}
+
+	}
+
+
+	public void punir(String nomeLogin, String nomeDoJogo, int score, boolean zerou) throws Exception {
+		Usuario user = procuraUsuario(nomeLogin);
+		if(user != null) {
+			user.punir(nomeDoJogo, score, zerou);
+		}
+		
 	}
 }

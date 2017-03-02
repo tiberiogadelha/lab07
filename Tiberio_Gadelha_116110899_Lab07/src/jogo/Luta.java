@@ -12,7 +12,7 @@ public class Luta extends Jogo{
 			throw new Exception("O score nao pode ser menor que zerou ou maior que 100 mil.");
 		}
 		qtdJogado++;
-		if (score > bestScore) {
+		if (score >= bestScore) {
 			bestScore = score;
 			return score/1000;
 		}
